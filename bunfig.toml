@@ -1,0 +1,7 @@
+[install]
+# Install packages automatically
+auto = true
+
+[test]
+# Use vitest for testing  
+runner = "vitest"

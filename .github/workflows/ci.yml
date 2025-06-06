@@ -1,0 +1,126 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        runtime: [bun, node]
+        include:
+          - runtime: bun
+            setup-action: 'oven-sh/setup-bun@v1'
+            setup-version: 'latest'
+          - runtime: node
+            setup-action: 'actions/setup-node@v4'
+            setup-version: '20.x'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup ${{ matrix.runtime }}
+      uses: ${{ matrix.setup-action }}
+      with:
+        ${{ matrix.runtime }}-version: ${{ matrix.setup-version }}
+    
+    - name: Install dependencies (Bun)
+      if: matrix.runtime == 'bun'
+      run: bun install
+    
+    - name: Install dependencies (Node)
+      if: matrix.runtime == 'node'
+      run: npm ci
+    
+    - name: Type check
+      run: |
+        if [ "${{ matrix.runtime }}" = "bun" ]; then
+          bun run type-check
+        else
+          npm run type-check
+        fi
+    
+    - name: Lint
+      run: |
+        if [ "${{ matrix.runtime }}" = "bun" ]; then
+          bun run lint
+        else
+          npm run lint
+        fi
+    
+    - name: Format check
+      run: |
+        if [ "${{ matrix.runtime }}" = "bun" ]; then
+          bun run format:check
+        else
+          npm run format:check
+        fi
+    
+    - name: Build
+      run: |
+        if [ "${{ matrix.runtime }}" = "bun" ]; then
+          bun run build
+        else
+          npm run build
+        fi
+    
+    - name: Test
+      run: |
+        if [ "${{ matrix.runtime }}" = "bun" ]; then
+          bun test
+        else
+          npm test
+        fi
+    
+    - name: Test server functionality
+      run: |
+        if [ "${{ matrix.runtime }}" = "bun" ]; then
+          bun run test:server
+        else
+          npm run test:server
+        fi
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v1
+      with:
+        bun-version: latest
+    
+    - name: Setup Node.js for npm publishing
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        registry-url: 'https://registry.npmjs.org'
+    
+    - name: Install dependencies
+      run: bun install
+    
+    - name: Build
+      run: bun run build
+    
+    - name: Publish to npm (if version changed)
+      run: |
+        # Only publish if the version in package.json doesn't exist on npm
+        PACKAGE_VERSION=$(node -p "require('./package.json').version")
+        PACKAGE_NAME=$(node -p "require('./package.json').name")
+        
+        if ! npm view $PACKAGE_NAME@$PACKAGE_VERSION version 2>/dev/null; then
+          echo "Publishing $PACKAGE_NAME@$PACKAGE_VERSION"
+          npm publish
+        else
+          echo "Version $PACKAGE_VERSION already exists, skipping publish"
+        fi
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
