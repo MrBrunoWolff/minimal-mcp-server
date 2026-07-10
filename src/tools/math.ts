@@ -1,5 +1,5 @@
-import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import { MCPToolResponse } from '../types/index.js';
+import type { Tool } from '@modelcontextprotocol/sdk/types.js';
+import type { MCPToolResponse } from '../types/index.js';
 
 export const mathTool: Tool = {
   name: 'calculate',

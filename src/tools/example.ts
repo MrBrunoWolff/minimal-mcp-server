@@ -1,5 +1,5 @@
-import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import { ExampleToolArgs, MCPToolResponse } from '../types/index.js';
+import type { Tool } from '@modelcontextprotocol/sdk/types.js';
+import type { ExampleToolArgs, MCPToolResponse } from '../types/index.js';
 
 /**
  * Example tool definition

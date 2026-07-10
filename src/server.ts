@@ -16,6 +16,11 @@ export function createMCPServer(): Server {
     {
       name: 'minimal-mcp-server',
       version: '1.0.0',
+    },
+    {
+      capabilities: {
+        tools: {},
+      },
     }
   );
 

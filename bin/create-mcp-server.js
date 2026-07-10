@@ -94,7 +94,7 @@ try {
   try {
     // Try bun first, fallback to npm
     execSync('bun install', { stdio: 'inherit' });
-  } catch (error) {
+  } catch {
     console.log('Bun not found, falling back to npm...');
     execSync('npm install', { stdio: 'inherit' });
   }
