@@ -7,11 +7,8 @@ A comprehensive template for creating Model Context Protocol (MCP) servers using
 ### Create a New MCP Server (Recommended)
 
 ```bash
-# With Bun (recommended - faster)
+# Scaffold a new server
 bunx minimal-mcp-server create my-mcp-server
-
-# With npm
-npx minimal-mcp-server create my-mcp-server
 
 # Navigate to your project
 cd my-mcp-server
@@ -62,12 +59,10 @@ my-mcp-server/
 
 ```bash
 # Development (with hot reload)
-bun run dev              # Bun (recommended)
-npm run dev              # npm alternative
+bun run dev              # Start dev server
 
 # Testing
-bun test                 # Run tests with Bun
-npm test                 # Run tests with npm
+bun test                 # Run tests
 bun test --watch         # Watch mode
 bun test --coverage      # With coverage
 
