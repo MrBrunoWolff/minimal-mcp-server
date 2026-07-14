@@ -7,22 +7,22 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'MCPServer',
       fileName: 'index',
-      formats: ['es', 'cjs']
+      formats: ['es', 'cjs'],
     },
     rollupOptions: {
       external: ['@modelcontextprotocol/sdk'],
       output: {
         globals: {
-          '@modelcontextprotocol/sdk': 'MCPSdk'
-        }
-      }
+          '@modelcontextprotocol/sdk': 'MCPSdk',
+        },
+      },
     },
     sourcemap: true,
-    target: 'node18'
+    target: 'node18',
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src')
-    }
-  }
+      '@': resolve(__dirname, 'src'),
+    },
+  },
 });

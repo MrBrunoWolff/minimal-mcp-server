@@ -34,16 +34,16 @@ console.log('');
 try {
   // Create project directory
   fs.mkdirSync(projectDir, { recursive: true });
-  
+
   // For development/testing, copy from local template
   const templatePath = path.join(__dirname, '..');
-  
+
   console.log('Creating project from template...');
-  
+
   // Copy template files
   const filesToCopy = [
     'src',
-    'tests', 
+    'tests',
     'docs',
     'examples',
     'scripts',
@@ -58,13 +58,13 @@ try {
     'README.md',
     'CONTRIBUTING.md',
     'CHANGELOG.md',
-    'bunfig.toml'
+    'bunfig.toml',
   ];
-  
+
   for (const file of filesToCopy) {
     const srcPath = path.join(templatePath, file);
     const destPath = path.join(projectDir, file);
-    
+
     if (fs.existsSync(srcPath)) {
       const stats = fs.statSync(srcPath);
       if (stats.isDirectory()) {
@@ -74,11 +74,11 @@ try {
       }
     }
   }
-  
+
   // Initialize git repository
   process.chdir(projectDir);
   execSync('git init', { stdio: 'inherit' });
-  
+
   // Update package.json with new project name
   const packageJsonPath = path.join(projectDir, 'package.json');
   if (fs.existsSync(packageJsonPath)) {
@@ -88,7 +88,7 @@ try {
     delete packageJson.bin; // Remove the create-mcp-server bin
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
   }
-  
+
   console.log('');
   console.log('Installing dependencies...');
   try {
@@ -98,26 +98,27 @@ try {
     console.log('Bun not found, falling back to npm...');
     execSync('npm install', { stdio: 'inherit' });
   }
-  
+
   console.log('');
   console.log('✅ Successfully created MCP server!');
   console.log('');
   console.log('Next steps:');
   console.log(`  cd ${projectName}`);
-  console.log('  bun run dev          # Start development server (recommended)');
+  console.log(
+    '  bun run dev          # Start development server (recommended)'
+  );
   console.log('  npm run dev          # Alternative with npm');
   console.log('  bun test             # Run tests');
   console.log('  bun run build        # Build for production');
   console.log('');
   console.log('Happy coding! 🚀');
-  
 } catch (error) {
   console.error('Error creating project:', error.message);
-  
+
   // Clean up on error
   if (fs.existsSync(projectDir)) {
     fs.rmSync(projectDir, { recursive: true, force: true });
   }
-  
+
   process.exit(1);
 }

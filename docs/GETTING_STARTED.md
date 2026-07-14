@@ -70,16 +70,16 @@ export const helloTool: Tool = {
     properties: {
       name: {
         type: 'string',
-        description: 'The name of the person to greet'
+        description: 'The name of the person to greet',
       },
       formal: {
         type: 'boolean',
         description: 'Whether to use formal greeting',
-        default: false
-      }
+        default: false,
+      },
     },
-    required: ['name']
-  }
+    required: ['name'],
+  },
 };
 
 interface HelloToolArgs {
@@ -87,18 +87,20 @@ interface HelloToolArgs {
   formal?: boolean;
 }
 
-export async function handleHelloTool(args: HelloToolArgs): Promise<MCPToolResponse> {
+export async function handleHelloTool(
+  args: HelloToolArgs
+): Promise<MCPToolResponse> {
   const { name, formal = false } = args;
-  
+
   const greeting = formal ? `Good day, ${name}!` : `Hello, ${name}!`;
-  
+
   return {
     content: [
       {
         type: 'text',
-        text: greeting
-      }
-    ]
+        text: greeting,
+      },
+    ],
   };
 }
 ```
@@ -115,7 +117,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       exampleTool,
       mathTool,
-      helloTool  // Add here
+      helloTool, // Add here
     ],
   };
 });
@@ -123,11 +125,11 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
 // Add to tool handler
 switch (name) {
   case 'example':
-    return await handleExampleTool(args as any) as any;
+    return (await handleExampleTool(args as any)) as any;
   case 'calculate':
-    return await handleMathTool(args as any) as any;
-  case 'hello':  // Add this case
-    return await handleHelloTool(args as any) as any;
+    return (await handleMathTool(args as any)) as any;
+  case 'hello': // Add this case
+    return (await handleHelloTool(args as any)) as any;
   default:
     throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${name}`);
 }
@@ -207,6 +209,7 @@ This creates optimized builds in the `dist/` directory.
 Once your server is built, you can integrate it with Claude Desktop:
 
 1. Build your server:
+
    ```bash
    npm run build
    ```
@@ -216,6 +219,7 @@ Once your server is built, you can integrate it with Claude Desktop:
    - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 
 3. Add your server configuration:
+
    ```json
    {
      "mcpServers": {
@@ -259,11 +263,13 @@ Once your server is built, you can integrate it with Claude Desktop:
 import { promises as fs } from 'fs';
 import { join } from 'path';
 
-export async function handleFileReadTool(args: FileReadArgs): Promise<MCPToolResponse> {
+export async function handleFileReadTool(
+  args: FileReadArgs
+): Promise<MCPToolResponse> {
   try {
     const content = await fs.readFile(args.path, 'utf-8');
     return {
-      content: [{ type: 'text', text: content }]
+      content: [{ type: 'text', text: content }],
     };
   } catch (error) {
     throw new Error(`Failed to read file: ${error.message}`);
@@ -274,12 +280,14 @@ export async function handleFileReadTool(args: FileReadArgs): Promise<MCPToolRes
 ### HTTP Requests
 
 ```typescript
-export async function handleHttpGetTool(args: HttpGetArgs): Promise<MCPToolResponse> {
+export async function handleHttpGetTool(
+  args: HttpGetArgs
+): Promise<MCPToolResponse> {
   try {
     const response = await fetch(args.url);
     const data = await response.text();
     return {
-      content: [{ type: 'text', text: data }]
+      content: [{ type: 'text', text: data }],
     };
   } catch (error) {
     throw new Error(`HTTP request failed: ${error.message}`);

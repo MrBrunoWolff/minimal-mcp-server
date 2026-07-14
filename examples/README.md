@@ -5,6 +5,7 @@ This file shows an example of how to configure your MCP server with Claude Deskt
 ## Setup Instructions
 
 1. Build your MCP server:
+
    ```bash
    npm run build
    ```
@@ -14,6 +15,7 @@ This file shows an example of how to configure your MCP server with Claude Deskt
    - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 
 3. Add your server configuration:
+
    ```json
    {
      "mcpServers": {

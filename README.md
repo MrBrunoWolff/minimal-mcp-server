@@ -28,7 +28,7 @@ bun install
 ## ✨ Features
 
 - 🚀 **TypeScript** - Full type safety and modern JavaScript features
-- ⚡ **Vite** - Fast build tool and development server  
+- ⚡ **Vite** - Fast build tool and development server
 - 🧪 **Vitest** - Fast unit testing framework
 - 🏃 **Bun** - Ultra-fast JavaScript runtime (npm compatible)
 - 🔧 **ESLint & Prettier** - Code linting and formatting
@@ -83,6 +83,7 @@ bun run start            # Start built server
 ## 🎯 Example Tools Included
 
 ### Text Processing Tool
+
 ```typescript
 // Process text with various operations
 {
@@ -96,6 +97,7 @@ bun run start            # Start built server
 ```
 
 ### Mathematical Tool
+
 ```typescript
 // Perform calculations
 {

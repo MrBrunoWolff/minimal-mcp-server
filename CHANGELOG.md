@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2025-06-06
 
 ### Added
+
 - Initial release of MCP server template
 - TypeScript support with modern ES modules
 - Vite for fast building and development
@@ -21,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for both npm and bunx package managers
 
 ### Features
+
 - **Core MCP Server**: Built with @modelcontextprotocol/sdk
 - **Development Tools**: Hot reload, testing, linting, formatting
 - **Example Implementation**: Ready-to-use tools showing best practices
@@ -31,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Production Ready**: Optimized builds for deployment
 
 ### Technical Details
+
 - Node.js 18+ support
 - ES modules with CommonJS compatibility
 - Modern TypeScript configuration

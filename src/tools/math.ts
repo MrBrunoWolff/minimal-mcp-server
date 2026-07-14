@@ -10,19 +10,19 @@ export const mathTool: Tool = {
       operation: {
         type: 'string',
         enum: ['add', 'subtract', 'multiply', 'divide'],
-        description: 'The mathematical operation to perform'
+        description: 'The mathematical operation to perform',
       },
       a: {
         type: 'number',
-        description: 'First number'
+        description: 'First number',
       },
       b: {
         type: 'number',
-        description: 'Second number'
-      }
+        description: 'Second number',
+      },
     },
-    required: ['operation', 'a', 'b']
-  }
+    required: ['operation', 'a', 'b'],
+  },
 };
 
 interface MathToolArgs {
@@ -31,12 +31,14 @@ interface MathToolArgs {
   b: number;
 }
 
-export async function handleMathTool(args: MathToolArgs): Promise<MCPToolResponse> {
+export async function handleMathTool(
+  args: MathToolArgs
+): Promise<MCPToolResponse> {
   const { operation, a, b } = args;
-  
+
   let result: number;
   let operationSymbol: string;
-  
+
   switch (operation) {
     case 'add':
       result = a + b;
@@ -60,13 +62,13 @@ export async function handleMathTool(args: MathToolArgs): Promise<MCPToolRespons
     default:
       throw new Error(`Unknown operation: ${operation}`);
   }
-  
+
   return {
     content: [
       {
         type: 'text',
-        text: `${a} ${operationSymbol} ${b} = ${result}`
-      }
-    ]
+        text: `${a} ${operationSymbol} ${b} = ${result}`,
+      },
+    ],
   };
 }

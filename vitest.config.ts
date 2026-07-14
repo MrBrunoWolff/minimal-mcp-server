@@ -14,13 +14,13 @@ export default defineConfig({
         'dist/',
         '**/*.d.ts',
         'vite.config.ts',
-        'vitest.config.ts'
-      ]
-    }
+        'vitest.config.ts',
+      ],
+    },
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src')
-    }
-  }
+      '@': resolve(__dirname, 'src'),
+    },
+  },
 });

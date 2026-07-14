@@ -27,6 +27,7 @@ Thank you for your interest in contributing to this MCP server template! This do
 4. Add tests in `tests/tools/`
 
 Example tool structure:
+
 ```typescript
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 
@@ -35,7 +36,7 @@ export const myTool: Tool = {
   description: 'Tool description',
   inputSchema: {
     // JSON schema for inputs
-  }
+  },
 };
 
 export async function handleMyTool(args: any) {
@@ -68,6 +69,7 @@ export async function handleMyTool(args: any) {
 ## Issues
 
 When reporting issues:
+
 - Use a clear, descriptive title
 - Provide steps to reproduce
 - Include relevant error messages

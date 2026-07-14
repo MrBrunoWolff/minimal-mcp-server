@@ -15,7 +15,7 @@ console.log('');
 
 // Start the server process
 const server = spawn('node', [serverPath], {
-  stdio: ['pipe', 'pipe', 'pipe']
+  stdio: ['pipe', 'pipe', 'pipe'],
 });
 
 let output = '';
@@ -46,18 +46,24 @@ setTimeout(() => {
   console.log('To test with Claude Desktop:');
   console.log('1. Build the project: npm run build');
   console.log('2. Add to Claude Desktop config:');
-  console.log(JSON.stringify({
-    "mcpServers": {
-      "minimal-mcp-server": {
-        "command": "node",
-        "args": [path.resolve(serverPath)]
-      }
-    }
-  }, null, 2));
+  console.log(
+    JSON.stringify(
+      {
+        mcpServers: {
+          'minimal-mcp-server': {
+            command: 'node',
+            args: [path.resolve(serverPath)],
+          },
+        },
+      },
+      null,
+      2
+    )
+  );
   console.log('3. Restart Claude Desktop');
   console.log('');
   console.log('Available tools: example, calculate');
-  
+
   // Kill the server
   server.kill('SIGTERM');
   process.exit(0);
