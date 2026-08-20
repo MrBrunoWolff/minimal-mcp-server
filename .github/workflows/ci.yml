@@ -53,6 +53,14 @@ jobs:
     needs: quality
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    # Trusted publishing (OIDC): npm verifies this workflow's identity against
+    # the trusted publisher configured on the package, so there is no token to
+    # store, leak or rotate — and no 2FA prompt to get stuck behind. `id-token`
+    # is what lets the runner mint the OIDC token; without it npm falls back to
+    # looking for a credential and fails.
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
@@ -62,16 +70,23 @@ jobs:
         with:
           bun-version: 1.4.0
 
-      # npm still drives the publish. `bun publish` does exist and can read a
-      # token, so this is no longer a hard limitation — but it is the one step
-      # that cannot be dry-run safely, and a silent auth regression here means a
-      # release that does not happen. Left on the known-good path deliberately;
-      # everything else in this repo runs on bun.
+      # npm drives the publish, not bun: trusted publishing is an npm CLI feature
+      # and `bun publish` has no OIDC support, so this step stays on npm even
+      # though everything else in this repo runs on bun.
       - name: Setup Node.js for npm publishing
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: '24.x'
           registry-url: 'https://registry.npmjs.org'
+
+      # Trusted publishing needs npm >= 11.5.1. Node 24 already ships a newer
+      # npm than that, but pinning the floor explicitly means a future runner
+      # image change cannot silently drop OIDC support and fall back to asking
+      # for a credential.
+      - name: Ensure npm supports trusted publishing
+        run: |
+          npm install -g npm@latest
+          echo "npm $(npm --version) / node $(node --version)"
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
@@ -80,26 +95,31 @@ jobs:
         run: bun run build
 
       - name: Publish to npm (if version changed)
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          # No token configured: skip rather than fail. Without one `npm publish`
-          # dies with ENEEDAUTH, which turns every push to main red while saying
-          # nothing about the code. Add NPM_TOKEN under Settings > Secrets and
-          # variables > Actions to enable publishing.
-          if [ -z "$NODE_AUTH_TOKEN" ]; then
-            echo "No NPM_TOKEN secret configured — skipping publish."
-            echo "Add one under Settings > Secrets and variables > Actions to enable it."
-            exit 0
-          fi
-
-          # Only publish if the version in package.json doesn't exist on npm
+          # No NODE_AUTH_TOKEN here on purpose. With a trusted publisher
+          # configured on npm, the CLI exchanges this job's OIDC identity for a
+          # short-lived credential itself; supplying a token would bypass that
+          # and lose the provenance attestation npm generates automatically.
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           PACKAGE_NAME=$(node -p "require('./package.json').name")
 
-          if ! npm view "$PACKAGE_NAME@$PACKAGE_VERSION" version 2>/dev/null; then
-            echo "Publishing $PACKAGE_NAME@$PACKAGE_VERSION"
-            npm publish
-          else
-            echo "Version $PACKAGE_VERSION already exists, skipping publish"
+          # Trusted publishing cannot perform a package's *first* publish: npm
+          # requires the package to exist before a trusted publisher can be
+          # configured on it (unlike PyPI). Until that one-time bootstrap has
+          # happened there is nothing this job can usefully do, so skip rather
+          # than fail — otherwise every push to main is red for a reason that
+          # has nothing to do with the code.
+          if ! npm view "$PACKAGE_NAME" version >/dev/null 2>&1; then
+            echo "$PACKAGE_NAME does not exist on npm yet."
+            echo "Trusted publishing cannot create it — publish once manually, then"
+            echo "configure the trusted publisher (repo: this one, workflow: ci.yml)."
+            exit 0
           fi
+
+          if npm view "$PACKAGE_NAME@$PACKAGE_VERSION" version >/dev/null 2>&1; then
+            echo "Version $PACKAGE_VERSION already exists, skipping publish"
+            exit 0
+          fi
+
+          echo "Publishing $PACKAGE_NAME@$PACKAGE_VERSION via trusted publishing"
+          npm publish
