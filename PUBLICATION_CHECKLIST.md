@@ -17,7 +17,7 @@
 - [x] **Changelog**: Version tracking and release notes
 - [x] **Bun optimization**: Prioritized Bun with npm compatibility
 - [x] **GitHub URLs**: Updated to https://github.com/MrBrunoWolff/minimal-mcp-server
-- [x] **CLI command**: Shortened to `bunx minimal-mcp-server create my-project`
+- [x] **CLI command**: `bunx @mrbrunowolff/minimal-mcp-server create my-project`
 - [x] **Local CLI testing**: Works perfectly, creates functional projects
 
 ### Ready to Publish ✓
@@ -25,7 +25,7 @@
 - [x] Build passes: `bun run build` ✅
 - [x] Tests pass: `bun test` ✅ (15/15 tests)
 - [x] Linting clean: `bun run lint` ✅
-- [x] Package name available: `minimal-mcp-server` ✅
+- [x] Package name: `@mrbrunowolff/minimal-mcp-server` (the bare `minimal-mcp-server` is owned by another maintainer) ✅
 - [x] Files properly configured for npm publish
 - [x] .npmignore configured to exclude dev files
 - [x] CLI tool tested and working with local template
@@ -35,7 +35,7 @@
 - [x] Build passes: `npm run build` ✅
 - [x] Tests pass: `npm test` ✅ (15/15 tests)
 - [x] Linting clean: `npm run lint` ✅
-- [x] Package name available: `minimal-mcp-server` ✅
+- [x] Package name: `@mrbrunowolff/minimal-mcp-server` (the bare `minimal-mcp-server` is owned by another maintainer) ✅
 - [x] Files properly configured for npm publish
 - [x] .npmignore configured to exclude dev files
 
@@ -93,7 +93,7 @@ npm publish
 ### 5. Test the Published Package
 
 ```bash
-npx minimal-mcp-server test-project
+npx @mrbrunowolff/minimal-mcp-server test-project
 cd test-project
 npm run dev
 ```
@@ -102,7 +102,7 @@ npm run dev
 
 ### 🎯 **For Developers**
 
-- One-command project creation: `npx minimal-mcp-server my-project`
+- One-command project creation: `npx @mrbrunowolff/minimal-mcp-server my-project`
 - Complete TypeScript setup with modern tooling
 - Ready-to-use example tools showing MCP best practices
 - Comprehensive test suite with 15+ tests
@@ -131,7 +131,7 @@ npm run dev
 Users can create new MCP servers with:
 
 ```bash
-npx minimal-mcp-server my-awesome-server
+npx @mrbrunowolff/minimal-mcp-server my-awesome-server
 cd my-awesome-server
 npm run dev
 ```

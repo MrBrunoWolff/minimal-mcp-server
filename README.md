@@ -8,7 +8,7 @@ A comprehensive template for creating Model Context Protocol (MCP) servers using
 
 ```bash
 # Scaffold a new server
-bunx minimal-mcp-server create my-mcp-server
+bunx @mrbrunowolff/minimal-mcp-server create my-mcp-server
 
 # Navigate to your project
 cd my-mcp-server

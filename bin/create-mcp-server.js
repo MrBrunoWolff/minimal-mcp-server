@@ -14,8 +14,8 @@ if (!projectName) {
   console.log('Usage: create <project-name>');
   console.log('');
   console.log('Example:');
-  console.log('  bunx minimal-mcp-server create my-mcp-server');
-  console.log('  npx minimal-mcp-server create my-mcp-server');
+  console.log('  bunx @mrbrunowolff/minimal-mcp-server create my-mcp-server');
+  console.log('  npx @mrbrunowolff/minimal-mcp-server create my-mcp-server');
   process.exit(1);
 }
 

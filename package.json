@@ -1,6 +1,9 @@
 {
-  "name": "minimal-mcp-server",
+  "name": "@mrbrunowolff/minimal-mcp-server",
   "version": "1.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "A minimal Model Context Protocol (MCP) server template built with TypeScript, Vite, and Vitest",
   "type": "module",
   "main": "dist/index.js",
