@@ -5,9 +5,9 @@ Thank you for your interest in contributing to this MCP server template! This do
 ## Development Setup
 
 1. Fork and clone the repository
-2. Install dependencies: `npm install`
-3. Run tests: `npm test`
-4. Start development: `npm run dev`
+2. Install dependencies: `bun install`
+3. Run tests: `bun test`
+4. Start development: `bun run dev`
 
 ## Project Structure
 
@@ -48,7 +48,7 @@ export async function handleMyTool(args: any) {
 
 - Write unit tests for all tools
 - Ensure good test coverage
-- Run `npm test` before submitting
+- Run `bun test` before submitting
 
 ## Code Style
 

@@ -7,7 +7,7 @@ This file shows an example of how to configure your MCP server with Claude Deskt
 1. Build your MCP server:
 
    ```bash
-   npm run build
+   bun run build
    ```
 
 2. Locate your Claude Desktop configuration file:
@@ -44,7 +44,7 @@ You can test your server independently using:
 
 ```bash
 # Start the server
-npm start
+bun start
 
 # The server will listen on stdio and wait for MCP protocol messages
 ```
