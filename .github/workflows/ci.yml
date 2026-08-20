@@ -80,7 +80,19 @@ jobs:
         run: bun run build
 
       - name: Publish to npm (if version changed)
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
+          # No token configured: skip rather than fail. Without one `npm publish`
+          # dies with ENEEDAUTH, which turns every push to main red while saying
+          # nothing about the code. Add NPM_TOKEN under Settings > Secrets and
+          # variables > Actions to enable publishing.
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "No NPM_TOKEN secret configured — skipping publish."
+            echo "Add one under Settings > Secrets and variables > Actions to enable it."
+            exit 0
+          fi
+
           # Only publish if the version in package.json doesn't exist on npm
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           PACKAGE_NAME=$(node -p "require('./package.json').name")
@@ -91,5 +103,3 @@ jobs:
           else
             echo "Version $PACKAGE_VERSION already exists, skipping publish"
           fi
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
