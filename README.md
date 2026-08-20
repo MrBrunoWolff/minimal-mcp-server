@@ -1,6 +1,6 @@
 # Minimal MCP Server Template
 
-A comprehensive template for creating Model Context Protocol (MCP) servers using TypeScript, Vite, and Vitest. Optimized for **Bun** with npm compatibility.
+A comprehensive template for creating Model Context Protocol (MCP) servers using TypeScript and Vite, tested with Bun's built-in test runner. Built for **Bun**; the published server runs on Node.
 
 ## 🚀 Quick Start
 
@@ -29,9 +29,9 @@ bun install
 
 - 🚀 **TypeScript** - Full type safety and modern JavaScript features
 - ⚡ **Vite** - Fast build tool and development server
-- 🧪 **Vitest** - Fast unit testing framework
+- 🧪 **`bun test`** - Built-in test runner, no test framework to install
 - 🏃 **Bun** - Ultra-fast JavaScript runtime (npm compatible)
-- 🔧 **ESLint & Prettier** - Code linting and formatting
+- 🔧 **oxlint & Prettier** - Code linting and formatting
 - 📦 **Ready to publish** - Pre-configured for npm publishing
 - 🎯 **MCP SDK** - Built on the official Model Context Protocol SDK
 - 🛠️ **CLI Tool** - One-command project creation
@@ -215,7 +215,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 ## ⭐ Why This Template?
 
 - **Battle-tested**: 15+ comprehensive tests
-- **Modern Stack**: TypeScript + Vite + Vitest + Bun
+- **Modern Stack**: TypeScript + Vite + Bun (runtime, package manager and test runner)
 - **Developer Experience**: Hot reload, type safety, linting
 - **Production Ready**: Optimized builds, CI/CD pipeline
 - **Community**: Open source with active maintenance
