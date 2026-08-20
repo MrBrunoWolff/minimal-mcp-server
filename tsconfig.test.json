@@ -1,0 +1,17 @@
+{
+  // The specs were previously typechecked by nothing: tsconfig.json includes
+  // only src/** and explicitly excludes tests/, so a type error in a spec went
+  // undetected (verified by planting one). They also need Bun's globals now that
+  // they import from "bun:test", while src/ builds for Node — so they compile as
+  // their own unit rather than widening the library's types.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["bun"],
+    // The base config sets rootDir: src for the library build; this unit only
+    // typechecks, so widen it rather than fight it.
+    "rootDir": ".",
+    "noEmit": true
+  },
+  "include": ["tests/**/*.ts"],
+  "exclude": []
+}

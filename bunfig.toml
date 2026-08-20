@@ -1,7 +1,4 @@
 [install]
-# Install packages automatically
-auto = true
-
-[test]
-# Use vitest for testing  
-runner = "vitest"
+# Refuse to install npm versions published less than 3 days ago.
+# Defence against supply-chain attacks.
+minimumReleaseAge = 259200

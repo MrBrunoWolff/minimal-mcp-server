@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from 'bun:test';
 import { exampleTool, handleExampleTool } from '../../src/tools/example.js';
 
 describe('Example Tool', () => {
