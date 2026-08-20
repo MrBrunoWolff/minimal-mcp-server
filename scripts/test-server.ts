@@ -9,9 +9,11 @@
  *
  * The child stays `node`, deliberately. This package is published Node-targeted
  * (engines.node >=18, vite builds target node18) and Claude Desktop launches it
- * with `node`, so the smoke test has to exercise that shape. Running the bundle
- * under bun instead fails outright: the SDK's StdioServerTransport gets an
- * undefined process.stdin and throws before the server is up.
+ * with `node`, so the smoke test exercises the shape consumers actually run.
+ *
+ * It does run under bun too, now that the SDK is left external — while it was
+ * being bundled by Vite's browser-targeted library mode, StdioServerTransport
+ * got a shimmed `process` with no `stdin` and threw under either runtime.
  */
 import { resolve } from 'node:path';
 

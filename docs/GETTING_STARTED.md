@@ -17,7 +17,7 @@ npx create-mcp-server my-awesome-mcp-server
 cd my-awesome-mcp-server
 
 # Start development
-npm run dev
+bun run dev
 ```
 
 ### Method 2: Clone the Template
@@ -26,7 +26,7 @@ npm run dev
 git clone https://github.com/your-username/minimal-mcp-server.git my-mcp-server
 cd my-mcp-server
 npm install
-npm run dev
+bun run dev
 ```
 
 ## Understanding the Template Structure
@@ -138,7 +138,7 @@ switch (name) {
 3. Create tests in `tests/tools/hello.test.ts`:
 
 ```typescript
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from 'bun:test';
 import { helloTool, handleHelloTool } from '../../src/tools/hello.js';
 
 describe('Hello Tool', () => {
@@ -159,7 +159,7 @@ describe('Hello Tool', () => {
 ### Running in Development Mode
 
 ```bash
-npm run dev
+bun run dev
 ```
 
 This watches for changes and rebuilds automatically.
@@ -171,35 +171,35 @@ This watches for changes and rebuilds automatically.
 npm test
 
 # Run tests in watch mode
-npm run test:watch
+bun run test:watch
 
 # Run tests with coverage
-npm run test:coverage
+bun run test:coverage
 
-# Run tests with UI
-npm run test:ui
+# Smoke-test the built server over stdio
+bun run test:server
 ```
 
 ### Linting and Formatting
 
 ```bash
 # Check for linting issues
-npm run lint
+bun run lint
 
 # Fix linting issues
-npm run lint:fix
+bun run lint:fix
 
 # Format code
-npm run format
+bun run format
 
 # Check formatting
-npm run format:check
+bun run format:check
 ```
 
 ### Building for Production
 
 ```bash
-npm run build
+bun run build
 ```
 
 This creates optimized builds in the `dist/` directory.
@@ -211,7 +211,7 @@ Once your server is built, you can integrate it with Claude Desktop:
 1. Build your server:
 
    ```bash
-   npm run build
+   bun run build
    ```
 
 2. Find your Claude Desktop config file:
