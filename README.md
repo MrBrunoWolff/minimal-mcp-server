@@ -1,226 +1,111 @@
-# Minimal MCP Server Template
+# Minimal MCP Server
 
-A comprehensive template for creating Model Context Protocol (MCP) servers using TypeScript and Vite, tested with Bun's built-in test runner. Built for **Bun**; the published server runs on Node.
+A minimal Model Context Protocol (MCP) server template built with TypeScript, the official MCP SDK, Vite and Bun.
 
-## 🚀 Quick Start
+[![npm](https://img.shields.io/npm/v/@mrbrunowolff/minimal-mcp-server?style=flat-square)](https://www.npmjs.com/package/@mrbrunowolff/minimal-mcp-server)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
 
-### Create a New MCP Server (Recommended)
+## Features
 
-```bash
-# Scaffold a new server
-bunx @mrbrunowolff/minimal-mcp-server create my-mcp-server
+- MCP server on `@modelcontextprotocol/sdk`, served over stdio (`src/index.ts`)
+- Two example tools: `example` (repeats a message 1–10 times) and `calculate` (add, subtract, multiply, divide)
+- Strict TypeScript, built by Vite in library mode to ESM and CommonJS (`dist/index.js`, `dist/index.cjs`), with the SDK left external
+- Unit tests with `bun test`, plus a stdio smoke test of the built server (`scripts/test-server.ts`)
+- oxlint for linting and Prettier for formatting
+- GitHub Actions CI: audit, type check, lint, format check, build, tests and smoke test, then npm publish via trusted publishing
+- `bunfig.toml` refuses to install package versions published less than 3 days ago
 
-# Navigate to your project
-cd my-mcp-server
+## Quick start
 
-# Start developing
-bun run dev
-```
+### Clone
 
-### Alternative: Clone This Repository
-
-```bash
+```sh
 git clone https://github.com/MrBrunoWolff/minimal-mcp-server.git
 cd minimal-mcp-server
 bun install
+bun run dev
 ```
 
-## ✨ Features
+## Scripts
 
-- 🚀 **TypeScript** - Full type safety and modern JavaScript features
-- ⚡ **Vite** - Fast build tool and development server
-- 🧪 **`bun test`** - Built-in test runner, no test framework to install
-- 🏃 **Bun** - Ultra-fast JavaScript runtime (npm compatible)
-- 🔧 **oxlint & Prettier** - Code linting and formatting
-- 📦 **Ready to publish** - Pre-configured for npm publishing
-- 🎯 **MCP SDK** - Built on the official Model Context Protocol SDK
-- 🛠️ **CLI Tool** - One-command project creation
-- 📚 **Complete Documentation** - Getting started guide and examples
-- ✅ **15+ Tests** - Comprehensive test coverage
+| Command                  | Description                                                             |
+| ------------------------ | ----------------------------------------------------------------------- |
+| `bun run dev`            | Type-check, then rebuild with Vite in watch mode                        |
+| `bun run build`          | Type-check, then build `dist/` with Vite (ESM and CommonJS)             |
+| `bun run preview`        | Run `vite preview`                                                      |
+| `bun run test`           | Run the test suite with `bun test --parallel`                           |
+| `bun run test:watch`     | Run tests in watch mode                                                 |
+| `bun run test:coverage`  | Run tests with coverage                                                 |
+| `bun run test:server`    | Start the built `dist/index.js` with Node over stdio and check it boots |
+| `bun run lint`           | Lint with oxlint                                                        |
+| `bun run lint:fix`       | Lint with oxlint and apply fixes                                        |
+| `bun run type-check`     | Run `tsc --noEmit` against `tsconfig.json` and `tsconfig.test.json`     |
+| `bun run clean`          | Delete `dist/`                                                          |
+| `bun run start`          | Run the built server with `bun dist/index.js`                           |
+| `bun run prepublishOnly` | Build before publishing (runs automatically on publish)                 |
+| `bun run format`         | Format all files with Prettier                                          |
+| `bun run format:check`   | Check formatting with Prettier                                          |
+| `bun run audit`          | Audit dependencies, failing on high or critical advisories              |
+| `bun run licenses`       | List licenses of production dependencies                                |
 
-## 🏗️ Project Structure
+## Project structure
 
-```text
-my-mcp-server/
+```
+.
+├── .github/workflows/ci.yml       # Quality gates and npm publish
+├── bin/create-mcp-server.js       # `create` scaffolder (package bin)
+├── docs/GETTING_STARTED.md        # Walkthrough for adding a tool
+├── examples/
+│   ├── README.md                  # Claude Desktop setup notes
+│   └── claude_desktop_config.json # Example client config
+├── scripts/test-server.ts         # Stdio smoke test for dist/index.js
 ├── src/
-│   ├── index.ts          # Main entry point
-│   ├── server.ts         # MCP server setup
-│   ├── tools/            # Your MCP tools
-│   │   ├── example.ts    # Example text processing tool
-│   │   └── math.ts       # Mathematical calculations tool
-│   └── types/            # TypeScript type definitions
-├── tests/                # Comprehensive test suite
-├── docs/                 # Documentation
-├── examples/             # Usage examples
-└── dist/                 # Built output
+│   ├── index.ts                   # Entry point: stdio transport
+│   ├── server.ts                  # Server setup and tool registration
+│   ├── tools/
+│   │   ├── example.ts             # `example` tool
+│   │   └── math.ts                # `calculate` tool
+│   └── types/index.ts             # Shared types
+├── tests/
+│   ├── server.test.ts
+│   └── tools/                     # example.test.ts, math.test.ts
+├── bunfig.toml
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── PUBLICATION_CHECKLIST.md
+├── package.json
+├── tsconfig.json
+├── tsconfig.test.json
+└── vite.config.ts
 ```
 
-## 🛠️ Development Commands
+## MCP client integration
 
-```bash
-# Development (with hot reload)
-bun run dev              # Start dev server
-
-# Testing
-bun test                 # Run tests
-bun test --watch         # Watch mode
-bun test --coverage      # With coverage
-
-# Building
-bun run build            # Build for production
-bun run type-check       # TypeScript type checking
-
-# Code Quality
-bun run lint             # Lint code
-bun run format           # Format code
-bun run lint:fix         # Auto-fix linting issues
-
-# Server Testing
-bun run test:server      # Test server functionality
-bun run start            # Start built server
-```
-
-## 🎯 Example Tools Included
-
-### Text Processing Tool
-
-```typescript
-// Process text with various operations
-{
-  "name": "process_text",
-  "arguments": {
-    "text": "Hello World",
-    "operation": "reverse"
-  }
-}
-// Returns: "dlroW olleH"
-```
-
-### Mathematical Tool
-
-```typescript
-// Perform calculations
-{
-  "name": "calculate",
-  "arguments": {
-    "expression": "2 + 3 * 4"
-  }
-}
-// Returns: 14
-```
-
-## 🔧 Claude Desktop Integration
-
-Add this to your Claude Desktop configuration:
+Build the server, then point your MCP client at `dist/index.js` with an absolute path. For Claude Desktop, add this to `claude_desktop_config.json` (macOS: `~/Library/Application Support/Claude/`, Windows: `%APPDATA%\Claude\`) and restart the app:
 
 ```json
 {
   "mcpServers": {
-    "my-mcp-server": {
+    "minimal-mcp-server": {
       "command": "node",
-      "args": ["/path/to/your/project/dist/index.js"],
+      "args": ["/path/to/your/minimal-mcp-server/dist/index.js"],
       "env": {}
     }
   }
 }
 ```
 
-## 📦 What You Get
+`bun run test:server` checks that the built server starts and prints a matching config with your local path filled in. See [examples/](examples/) and [docs/GETTING_STARTED.md](docs/GETTING_STARTED.md) for more.
 
-When you create a new project with this template:
+To add a tool, create it in `src/tools/`, then add it to the `ListToolsRequestSchema` list and the `CallToolRequestSchema` switch in `src/server.ts`.
 
-- **Complete MCP Server**: Ready to run with example tools
-- **TypeScript Setup**: Modern configuration with type safety
-- **Development Environment**: Hot reload, testing, linting
-- **Example Tools**: Text processing and math calculations
-- **Test Suite**: 15+ comprehensive tests
-- **Build System**: Optimized Vite configuration
-- **Documentation**: Getting started guide and API docs
-- **Claude Integration**: Ready-to-use configuration examples
+## Publishing
 
-## 🚀 Publishing Your MCP Server
+CI publishes to npm from `main` using trusted publishing (OIDC), so no npm token is stored. The publish job runs after the quality gates pass, on a push to `main` or a manual `gh workflow run ci.yml`, and only publishes when the `version` in `package.json` is not already on npm. To release, bump `version` and push to `main`.
 
-### 1. Prepare for Publication
+Trusted publishing cannot create a package. For a new package name, publish once by hand (`npm login`, then `npm publish`), then configure the trusted publisher on npm with this repository and workflow `ci.yml`.
 
-```bash
-# Build and test
-bun run build
-bun test
-bun run lint
+## License
 
-# Update package.json with your details
-# - name: your-mcp-server-name
-# - description: your server description
-# - author: your name
-# - repository: your repository URL
-```
-
-### 2. Publish to npm
-
-```bash
-# Login to npm
-npm login
-
-# Publish
-npm publish
-```
-
-### 3. Test Your Published Package
-
-```bash
-# Test creating a project with your package
-bunx your-package-name create test-project
-cd test-project
-bun run dev
-```
-
-## 🔄 Updating Your Template
-
-To keep your MCP server up to date:
-
-```bash
-# Pull latest changes from template
-git remote add template https://github.com/MrBrunoWolff/minimal-mcp-server.git
-git fetch template
-git merge template/main
-```
-
-## 📋 Publishing Checklist
-
-Before publishing your MCP server:
-
-- [ ] **Tests Pass**: All 15+ tests should pass
-- [ ] **Build Works**: `bun run build` completes without errors
-- [ ] **Linting Clean**: `bun run lint` passes
-- [ ] **Types Valid**: `bun run type-check` passes
-- [ ] **Package Name**: Choose unique name on npm
-- [ ] **Documentation**: Update README with your server details
-- [ ] **Repository**: Push to GitHub/GitLab
-- [ ] **Version**: Follow semantic versioning
-
-## 🤝 Contributing
-
-Contributions are welcome! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-- **Issues**: [GitHub Issues](https://github.com/MrBrunoWolff/minimal-mcp-server/issues)
-- **Documentation**: [Getting Started Guide](docs/GETTING_STARTED.md)
-- **Examples**: [Example Configurations](examples/)
-
-## ⭐ Why This Template?
-
-- **Battle-tested**: 15+ comprehensive tests
-- **Modern Stack**: TypeScript + Vite + Bun (runtime, package manager and test runner)
-- **Developer Experience**: Hot reload, type safety, linting
-- **Production Ready**: Optimized builds, CI/CD pipeline
-- **Community**: Open source with active maintenance
-- **Fast Setup**: One command to create new projects
-
----
-
-**Happy coding! 🎉** Start building your MCP server in seconds with modern TypeScript tooling.
+MIT — see [LICENSE](LICENSE).
