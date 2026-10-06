@@ -18,7 +18,7 @@
     "test:watch": "bun test --watch",
     "test:coverage": "bun test --coverage",
     "test:server": "bun scripts/test-server.ts",
-    "lint": "oxlint",
+    "lint": "oxlint --deny-warnings",
     "lint:fix": "oxlint --fix",
     "type-check": "tsc --noEmit && tsc --noEmit -p tsconfig.test.json",
     "clean": "rm -rf dist",
@@ -27,7 +27,10 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "audit": "bun audit --audit-level=high",
-    "licenses": "bun pm licenses --prod"
+    "licenses": "bun pm licenses --prod",
+    "check:ci": "node scripts/quality.mjs",
+    "check:code": "node scripts/quality.mjs code",
+    "check:security": "node scripts/quality.mjs security"
   },
   "keywords": [
     "mcp",
@@ -71,5 +74,5 @@
   "engines": {
     "node": ">=20"
   },
-  "packageManager": "bun@1.4.0"
+  "packageManager": "bun@1.4.2"
 }
