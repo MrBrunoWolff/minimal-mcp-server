@@ -1,0 +1,15 @@
+{
+  "tier": "quick",
+  "bun": "1.4.2",
+  "node": "24.x",
+  "stages": {
+    "code": [
+      ["bun", "run", "lint"],
+      ["bun", "run", "format:check"],
+      ["bun", "run", "build"],
+      ["bun", "run", "test"],
+      ["bun", "run", "test:server"]
+    ],
+    "security": [["bun", "run", "audit"]]
+  }
+}
