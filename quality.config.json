@@ -4,6 +4,7 @@
   "node": "24.x",
   "stages": {
     "code": [
+      ["node", "--test", "scripts/publish-npm.test.mjs"],
       ["bun", "run", "lint"],
       ["bun", "run", "format:check"],
       ["bun", "run", "build"],
