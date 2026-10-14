@@ -17,6 +17,10 @@ updates:
     multi-ecosystem-group: 'weekly-updates'
     cooldown:
       default-days: 3
+
+    ignore:
+      - dependency-name: 'cf'
+        versions: ['<1.0.0']
   - package-ecosystem: 'github-actions'
     directory: '/'
     patterns: ['*']
